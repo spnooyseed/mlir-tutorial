@@ -25,7 +25,7 @@
     -DLLVM_ENABLE_ASSERTIONS=ON \
     -DCMAKE_BUILD_TYPE=RELEASE
 
-3. make -j
+3. make -j mltu-opt
 ```
 **install required software**
 ```

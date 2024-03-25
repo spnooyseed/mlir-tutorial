@@ -5,6 +5,9 @@ cmake_policy(SET CMP0116 NEW)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # 生成 compile_commands.json 便于代码高亮
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
+
 
 find_package(MLIR REQUIRED CONFIG)
 message(STATUS "Using MLIRConfig.cmake in: ${MLIR_DIR}")
@@ -20,13 +23,5 @@ include(HandleLLVMOptions)
 
 include_directories(${LLVM_INCLUDE_DIRS} ${MLIR_INCLUDE_DIRS})
 
-add_executable(mlir-tutorial main.cpp)
-
-
-target_link_libraries(
-  mlir-tutorial
-  MLIRIR
-  MLIRParser
-  MLIRFuncDialect
-  MLIRArithDialect
-)
+add_subdirectory(tools)
+# add_subdirectory(lib)
