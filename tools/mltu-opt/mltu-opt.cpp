@@ -1,18 +1,19 @@
+#include "llvm/Support/raw_ostream.h"
+#include "mlir/Dialect/Arith/IR/Arith.h"
+#include "mlir/Dialect/Func/IR/FuncOps.h"
 #include "mlir/IR/AsmState.h"
 #include "mlir/IR/BuiltinOps.h"
 #include "mlir/IR/MLIRContext.h"
 #include "mlir/Parser/Parser.h"
 #include "mlir/Support/FileUtilities.h"
-#include "mlir/Dialect/Func/IR/FuncOps.h"
-#include "mlir/Dialect/Arith/IR/Arith.h"
-#include "llvm/Support/raw_ostream.h"
-
+#include "tutorial/TutorialDialect.h"
 using namespace mlir;
 
-int main(int argc, char ** argv) {
+int main(int argc, char** argv) {
   MLIRContext ctx;
   // 首先，注册需要的 dialect
-  ctx.loadDialect<func::FuncDialect, arith::ArithDialect>();
+  ctx.loadDialect<func::FuncDialect, arith::ArithDialect,
+                  tutorial::TutorialDialect>();
   // 读入文件
   auto src = parseSourceFile<ModuleOp>(argv[1], &ctx);
   // 输出dialect，也可以输出到 llvm::errs(), llvm::dbgs()

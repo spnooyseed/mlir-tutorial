@@ -40,3 +40,8 @@
 9. wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 10. bash Miniconda3-latest-Linux-x86_64.sh
 ```
+
+**clang-format file**
+```
+find . -name "*.cpp" -o -name "*.h" | grep -v "build/\|llvm-project/" | xargs clang-format -i
+```
