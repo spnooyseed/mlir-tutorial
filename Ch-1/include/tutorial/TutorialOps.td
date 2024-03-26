@@ -7,7 +7,6 @@ include "mlir/IR/OpBase.td"
 include "mlir/Interfaces/SideEffectInterfaces.td"
 
 // begin define own op derived baseOp Class
-
 def ConstantOp : Tutorial_Op<"constant" , [Pure]> {
     let arguments = (ins
         F64ElementsAttr:$value
@@ -26,6 +25,21 @@ def ConstantOp : Tutorial_Op<"constant" , [Pure]> {
     let summary = [{define a tutorial.constant op}] ;
 
     let description = [{ define a input of F64ElementsAttr , outs is F64Tensor}] ;
+}
+
+
+def TransposeOp : Tutorial_Op<"transpose" , [Pure]> {
+    let arguments = (ins F64Tensor:$value) ;
+    let results = (outs F64Tensor);
+    let summary = [{define a tutorial.transpose op}] ;
+}
+
+def PrintOp : Tutorial_Op<"print" , [Pure]> {
+    let arguments = (ins F64Tensor:$input);
+    let summary = [{define a tutorial.print op}];
+
+    // can set mlir Format in td file
+    let assemblyFormat = "$input attr-dict `:` type($input)";
 }
 
 #endif // TUTORIAL_OPS_TD
