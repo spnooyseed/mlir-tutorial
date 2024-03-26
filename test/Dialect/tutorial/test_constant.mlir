@@ -1,0 +1,1 @@
+%4 = "tutorial.constant"() {value = dense<1.0> : tensor<2x3xf64>} : () -> tensor<2x3xf64>

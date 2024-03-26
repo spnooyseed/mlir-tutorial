@@ -13,7 +13,7 @@ int main(int argc, char** argv) {
   MLIRContext ctx;
   // 首先，注册需要的 dialect
   ctx.loadDialect<func::FuncDialect, arith::ArithDialect,
-                  tutorial::TutorialDialect>();
+                  mlir::tutorial::TutorialDialect>();
   // 读入文件
   auto src = parseSourceFile<ModuleOp>(argv[1], &ctx);
   // 输出dialect，也可以输出到 llvm::errs(), llvm::dbgs()
