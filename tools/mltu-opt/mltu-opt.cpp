@@ -5,20 +5,29 @@
 #include "mlir/IR/BuiltinOps.h"
 #include "mlir/IR/MLIRContext.h"
 #include "mlir/Parser/Parser.h"
+#include "mlir/Pass/PassManager.h"
 #include "mlir/Support/FileUtilities.h"
+#include "mlir/Transforms/Passes.h"
 #include "tutorial/TutorialDialect.h"
+#include "tutorial/TutorialOps.h"
+#include "tutorial/TutorialPass.h"
 using namespace mlir;
 
 int main(int argc, char** argv) {
   MLIRContext ctx;
-  // 首先，注册需要的 dialect
   ctx.loadDialect<func::FuncDialect, arith::ArithDialect,
                   mlir::tutorial::TutorialDialect>();
-  // 读入文件
   auto src = parseSourceFile<ModuleOp>(argv[1], &ctx);
-  // 输出dialect，也可以输出到 llvm::errs(), llvm::dbgs()
   src->print(llvm::outs());
-  // 简单的输出，在 debug 的时候常用
+
+  mlir::PassManager pm(src.get()->getName());
+
+  // pm.addPass(mlir::createInlinerPass());
+  pm.addNestedPass<func::FuncOp>(tutorial::createShapeInferencePass());
+
+  if (failed(pm.run(*src))) {
+    return 4;
+  }
   src->dump();
   return 0;
 }

@@ -24,13 +24,16 @@ message(STATUS "CMAKE_CURRENT_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
 # add tutorial include dirs
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Ch-1/include)
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/Ch-1/include)
-
+# include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Ch-1-dialect/include)
+# include_directories(${CMAKE_CURRENT_BINARY_DIR}/Ch-1-dialect/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Ch-2-pass/include)
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/Ch-2-pass/include)
 include(TableGen)
 include(AddLLVM)
 include(AddMLIR)
 include(HandleLLVMOptions)
 
 add_subdirectory(tools)
-add_subdirectory(Ch-1)
+# add_subdirectory(Ch-1-dialect)
+add_subdirectory(Ch-2-pass)
+# add_subdirectory(ex3-dialect)

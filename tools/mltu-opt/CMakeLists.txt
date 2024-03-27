@@ -31,8 +31,11 @@ set(LIBS
   MLIRToLLVMIRTranslationRegistration
   )
 
-add_llvm_tool(mltu-opt
+add_mlir_tool(mltu-opt
   mltu-opt.cpp
+
+  DEPENDS
+  TutorialShapeInferenceOpInterfaceIncGen
 )
 
 target_link_libraries(mltu-opt PRIVATE ${LIBS})
