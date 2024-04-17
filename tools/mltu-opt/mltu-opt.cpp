@@ -18,6 +18,7 @@ int main(int argc, char **argv) {
   ctx.loadDialect<func::FuncDialect, arith::ArithDialect,
                   mlir::tutorial::TutorialDialect>();
   auto src = parseSourceFile<ModuleOp>(argv[1], &ctx);
+  llvm::outs() << "beforer pass\n";
   src->print(llvm::outs());
 
   mlir::PassManager pm(src.get()->getName());
@@ -25,10 +26,13 @@ int main(int argc, char **argv) {
   // pm.addPass(mlir::createInlinerPass());
   // //createShapeInferencePass  have problem
   // pm.addNestedPass<tutorial::FuncOp>(tutorial::createShapeInferencePass());
-
+  // tutorial::registerPasses() ;
+  pm.addPass(tutorial::createConvertTutorialToArithPass());
   if (failed(pm.run(*src))) {
     return 4;
   }
+
+  llvm::outs() << "after pass\n";
   src->dump();
   return 0;
 }

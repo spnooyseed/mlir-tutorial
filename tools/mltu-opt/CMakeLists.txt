@@ -26,6 +26,7 @@ set(LIBS
   MLIRSupport
   MLIRIR
   Tutorial
+  TutorialTransformer
   # TODO: Remove when registerAllGPUToLLVMIRTranslations is no longer
   # registered directly in mlir-opt.cpp.
   MLIRToLLVMIRTranslationRegistration

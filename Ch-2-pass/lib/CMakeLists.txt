@@ -1,1 +1,2 @@
-add_mlir_dialect_library(Tutorial tutorial.cpp Transformer/ShapeInferencePass.cpp)
+add_mlir_dialect_library(Tutorial tutorial.cpp DEPENDS MLIRTutorialOpsIncGen)
+add_subdirectory(Transformer)
