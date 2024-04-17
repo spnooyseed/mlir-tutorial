@@ -3,4 +3,4 @@
 #include "mlir/IR/BuiltinDialect.h"
 #include "tutorial/TutorialOpsDialect.h.inc"
 
-#endif  // Tutorial_Dialect_H
+#endif // Tutorial_Dialect_H

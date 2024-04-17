@@ -1,4 +1,3 @@
-#include "llvm/Support/raw_ostream.h"
 #include "mlir/Dialect/Arith/IR/Arith.h"
 #include "mlir/Dialect/Func/IR/FuncOps.h"
 #include "mlir/IR/AsmState.h"
@@ -11,9 +10,10 @@
 #include "tutorial/TutorialDialect.h"
 #include "tutorial/TutorialOps.h"
 #include "tutorial/TutorialPass.h"
+#include "llvm/Support/raw_ostream.h"
 using namespace mlir;
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
   MLIRContext ctx;
   ctx.loadDialect<func::FuncDialect, arith::ArithDialect,
                   mlir::tutorial::TutorialDialect>();
@@ -23,7 +23,8 @@ int main(int argc, char** argv) {
   mlir::PassManager pm(src.get()->getName());
 
   // pm.addPass(mlir::createInlinerPass());
-  pm.addNestedPass<func::FuncOp>(tutorial::createShapeInferencePass());
+  // //createShapeInferencePass  have problem
+  // pm.addNestedPass<tutorial::FuncOp>(tutorial::createShapeInferencePass());
 
   if (failed(pm.run(*src))) {
     return 4;

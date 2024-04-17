@@ -3,9 +3,12 @@
 
 #include "mlir/IR/Builders.h"
 #include "mlir/IR/BuiltinOps.h"
+#include "mlir/Interfaces/CallInterfaces.h"
+#include "mlir/Interfaces/FunctionImplementation.h"
+#include "mlir/Interfaces/InferTypeOpInterface.h"
 #include "mlir/Interfaces/SideEffectInterfaces.h"
 #include "tutorial/TutorialDialect.h"
 #define GET_OP_CLASSES
 #include "tutorial/ShapeInferenceInterfaces.h.inc"
 #include "tutorial/TutorialOps.h.inc"
-#endif  // TUTORIAL_OPS_H
+#endif // TUTORIAL_OPS_H

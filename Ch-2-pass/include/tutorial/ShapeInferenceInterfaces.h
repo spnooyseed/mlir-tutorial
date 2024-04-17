@@ -21,7 +21,7 @@ namespace tutorial {
 
 /// Include the auto-generated declarations.
 #include "tutorial/ShapeInferenceInterfaces.h.inc"
-}  // namespace tutorial
-}  // namespace mlir
+} // namespace tutorial
+} // namespace mlir
 
-#endif  // tutorial_SHAPEINFERENCEINTERFACE_H_
+#endif // tutorial_SHAPEINFERENCEINTERFACE_H_
