@@ -31,18 +31,55 @@
 using namespace mlir;
 
 namespace {
+
+struct AddOpPat : OpRewritePattern<tutorial::AddOp> {
+  using OpRewritePattern<tutorial::AddOp>::OpRewritePattern;
+  LogicalResult matchAndRewrite(tutorial::AddOp op,
+                                PatternRewriter &rewriter) const final {
+    llvm::outs() << "addOp = " << op << "\n";
+    auto inputs = llvm::to_vector(op.getInputs());
+    auto result = inputs[0];
+    for (size_t i = 1; i < inputs.size(); ++i) {
+      result = rewriter.create<arith::AddIOp>(op->getLoc(), result, inputs[i]);
+    }
+    rewriter.replaceOp(op, ValueRange(result));
+    return success();
+  }
+};
+
+struct SubOpPat : OpRewritePattern<tutorial::SubOp> {
+  using OpRewritePattern<tutorial::SubOp>::OpRewritePattern;
+  LogicalResult matchAndRewrite(tutorial::SubOp op,
+                                PatternRewriter &rewriter) const final {
+    llvm::outs() << "SubOp = " << op << "\n";
+    rewriter.replaceOpWithNewOp<arith::SubIOp>(op, op.getLhs(), op.getRhs());
+    return success();
+  }
+};
+
 struct ConvertTutorialToArithPass
     : public PassWrapper<ConvertTutorialToArithPass, OperationPass<ModuleOp>> {
   MLIR_DEFINE_EXPLICIT_INTERNAL_INLINE_TYPE_ID(ConvertTutorialToArithPass)
+  void getDependentDialects(DialectRegistry &registry) const override {
+    registry.insert<affine::AffineDialect, func::FuncDialect,
+                    memref::MemRefDialect>();
+  }
   void runOnOperation() final {
-    llvm::outs() << "getname = \n" << getOperation()->getName() << "\n";
-    auto f = getOperation();
-    llvm::outs() << f << "\n";
-    f.walk([&](Operation *op) { llvm::outs() << "op = " << *op << "\n"; });
+    ConversionTarget target(getContext());
+
+    target.addLegalDialect<arith::ArithDialect, affine::AffineDialect,
+                           func::FuncDialect, memref::MemRefDialect>();
+    // target.addIllegalDialect<tutorial::TutorialDialect>() ;
+    RewritePatternSet patterns(&getContext());
+    patterns.add<SubOpPat, AddOpPat /*, FuncOpPat*/>(&getContext());
+
+    if (failed(applyPartialConversion(getOperation(), target,
+                                      std::move(patterns))))
+      signalPassFailure();
   }
 };
 } // namespace
 
-std::unique_ptr<mlir::Pass> tutorial::createConvertTutorialToArithPass() {
+std::unique_ptr<mlir::Pass> mlir::tutorial::createConvertTutorialToArithPass() {
   return std::make_unique<ConvertTutorialToArithPass>();
 }
